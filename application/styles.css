@@ -175,10 +175,11 @@ span.seq {
     padding: 10px 20px;
 }
 
-.active{
-	opacity: 1
-}
 
 .wait{
 	opacity: 0.5
+}
+
+.active{
+    opacity: 1
 }

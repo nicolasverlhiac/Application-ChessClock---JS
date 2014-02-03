@@ -37,8 +37,8 @@
 		<div class="container">
 
 			<!-- Bloc du joeur 1 -->
-			<section id="joueur-1" class="active">
-				<div class="timer" id="timer-player-1" onClick="timerUn()">
+			<section id="joueur-1" class="wait">
+				<div class="timer" id="timer-player-1">
 					<span class="chiffres"> 0 </span> <span class="seq"> </span>  <span class="chiffres"> 00 </span>
 				</div>
 				<div class="nom-player">
@@ -48,7 +48,7 @@
 
 			<!-- Bloc du joeur 2 -->
 			<section id="joueur-2" class="wait">
-				<div class="timer" id="timer-player-2" onClick="timerDeux()">
+				<div class="timer" id="timer-player-2">
 						<span class="chiffres"> 0 </span> <span class="seq"> </span>  <span class="chiffres"> 00 </span>
 				</div>
 				<div class="nom-player">
@@ -69,6 +69,29 @@
 
 				var timerIdun;
 				var timerIddeux;
+
+				var player_1 = document.getElementById("joueur-1");
+				var player_2 = document.getElementById("joueur-2");
+  				
+  				player_1.onclick = function(){
+  					timerUn();
+  					// Enlever la class Active
+  					player_2.className=player_2.className.replace("active","");
+
+  					// Ajouter la classe Active
+  					player_1.className = player_1.className + "active";
+
+  				};
+
+  				player_2.onclick = function(){
+  					timerDeux();
+  					// Enlever la class Active
+  					player_1.className=player_2.className.replace("active","");
+
+  					// Ajouter la classe Active
+  					player_2.className = player_1.className + "active";
+
+  				};
 
 
 				function timerUn() {  
