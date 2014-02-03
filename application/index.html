@@ -30,17 +30,190 @@
 	<body> 
 				
 		<header>
-
+			<h1>Chess Clock <span class="icon-clock"></span> </h1>
 			
 		</header>
 
 		<div class="container">
-			<section id="joueur-1"></section>
-			<section id="joueur-2"></section>
+
+			<!-- Bloc du joeur 1 -->
+			<section id="joueur-1" class="active">
+				<div class="timer" id="timer-player-1" onClick="timerUn()">
+					<span class="chiffres"> 0 </span> <span class="seq"> </span>  <span class="chiffres"> 00 </span>
+				</div>
+				<div class="nom-player">
+					<h4> Joueur 1 </h4>
+				</div>
+			</section>
+
+			<!-- Bloc du joeur 2 -->
+			<section id="joueur-2" class="wait">
+				<div class="timer" id="timer-player-2" onClick="timerDeux()">
+						<span class="chiffres"> 0 </span> <span class="seq"> </span>  <span class="chiffres"> 00 </span>
+				</div>
+				<div class="nom-player">
+					<h4> Joueur 2</h4>
+				</div>
+			</section>
 		</div>
 
 				
 		<footer>
+
+			<script type="text/javascript">
+				var secondes_player1 = 0;
+				var minutes_player1 = 5;
+
+				var secondes_player2 = 0;
+				var minutes_player2 = 5;
+
+				var timerIdun;
+				var timerIddeux;
+
+
+				function timerUn() {  
+
+				  timerIdun = setInterval(updateA, 1000);
+				  updateA();
+				  clearInterval(timerIddeux);
+				}
+
+				function timerDeux() {  
+
+				  timerIddeux = setInterval(updateB, 1000);
+				  updateB();
+
+				  clearInterval(timerIdun);
+				}
+
+
+
+				function updateA() {
+
+				  if (secondes_player1 == 0) {
+						minutes_player1 --;
+						secondes_player1 = 60;
+					};
+
+					if (minutes_player1 < 10) {
+						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player1-- +'</span>';
+					};
+
+					if (secondes_player1 < 10) {
+						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres"> 0' + secondes_player1 +'</span>';
+					}
+					else{
+						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player1 +'</span>';
+					};
+				}
+
+				function updateB() {
+
+				  if (secondes_player2 == 0) {
+						minutes_player2 --;
+						secondes_player2 = 60;
+					};
+
+					if (minutes_player2 < 10) {
+						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player2-- +'</span>';
+					};
+
+					if (secondes_player2 < 10) {
+						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres"> 0' + secondes_player2+'</span>';
+					}
+					else{
+						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player2 +'</span>';
+					};
+				}
+
+
+
+
+
+				// function timerStop(){
+				// 	document.getElementById("joueur-1").onclick = timerContinue;
+				// }
+
+				// function timerStart(){
+				// 	document.getElementById("joueur-1").onclick = timerStop;
+
+				// 	var timer_player_1 = setInterval(function () {
+				// 		if (secondes_player1 == 0) {
+				// 			minutes_player1 --;
+				// 			secondes_player1 = 60;
+				// 		};
+
+				// 		if (minutes_player1 < 10) {
+				// 			document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player1-- +'</span>';
+				// 		};
+
+				// 		if (secondes_player1 < 10) {
+				// 			document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres"> 0' + secondes_player1 +'</span>';
+				// 		}
+				// 		else{
+				// 			document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player1 +'</span>';
+				// 		};
+
+				// 	},1000);
+
+
+				// }
+
+				// function timerContinue(){
+				// 	document.getElementById("joueur-1").onclick = timerStop;
+				// }
+
+
+				
+
+			 // 	var timer_player_2 = setInterval(function () {
+				// 	if (secondes_player2 == 0) {
+				// 		minutes_player2 --;
+				// 		secondes_player2 = 60;
+				// 	};
+
+				// 	if (minutes_player2 < 10) {
+				// 		document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player2-- +'</span>';
+				// 	};
+
+				// 	if (secondes_player2 < 10) {
+				// 		document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres"> 0' + secondes_player2 +'</span>';
+				// 	}
+				// 	else{
+				// 		document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player2 +'</span>';
+				// 	};
+
+				// },1000);
+
+
+
+
+  			// 	function chessClock(player,secondes) {
+
+  			// 		if (secondes == 0) {
+					// 	minutes --;
+					// 	secondes = 60;
+					// };
+
+					// if (minutes < 10) {
+					// 	document.getElementById("timer-player-"+player).innerHTML = '<span class="chiffres">' + minutes + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes-- +'</span>';
+					// };
+
+					// if (secondes < 10) {
+					// 	document.getElementById("timer-player-"+player).innerHTML = '<span class="chiffres">' + minutes + '</span> <span class="seq"> </span> <span class="chiffres"> 0' + secondes +'</span>';
+					// }
+					// else{
+					// 	document.getElementById("timer-player-"+player).innerHTML = '<span class="chiffres">' + minutes + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes +'</span>';
+					// };
+  					
+  			// 	}
+
+
+  			// 	var timer = setInterval("chessClock(1, 400)",1000);
+
+
+
+			</script>
 
 		</footer>
 	    	        		
