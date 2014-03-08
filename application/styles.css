@@ -78,18 +78,29 @@ body {
     margin: 0;
     font-size: 12px;
     color: #333;
-    background: #d4d4d4;
+    background: #0099CC;
 }
 
 header {
-    width: 800px;
-    margin: 100px auto 120px;
+    width: 100%;
+    background: #ffffff;
+    padding: 30px 0 10px;
+    margin: 0 auto 70px;
     text-align: center;
 }
 
-div.container {
+div.container,
+div.actions {
 	width: 1000px;
+    display: table;
     margin: 0 auto;
+}
+
+div.container p {
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    padding-bottom: 20px;
 }
 
 section {
@@ -105,6 +116,8 @@ footer {
 .clear {
     clear: both;
 }
+
+
 
 /*
 **                                     Typographie
@@ -137,7 +150,7 @@ h2 {
 
 
 .timer {
-    width: 240px;
+    width: 280px;
     height: 110px;
     background: #27313d;
     border-radius: 15px;
@@ -146,12 +159,37 @@ h2 {
     text-align: center;
 }
 
-.chiffres {
+span.texte{
+    margin: 30px 8px 15px 10px;
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: 900;
+    float: left;
+}
+
+span.chiffres,
+textarea.chiffres {
     margin: 15px 8px 15px 30px;
     font-size: 60px;
     color: #ffffff;
     font-weight: 900;
     float: left;
+}
+
+
+span.resultat {
+    font-size: 40px;
+    margin: 28px 8px 15px 80px;
+    color: #ffffff;
+    font-weight: 900;
+    float: left;
+}
+span.win {
+    color: #80B61B;
+}
+
+span.loose {
+    color: #EC595C;
 }
 
 span.seq {
@@ -175,11 +213,72 @@ span.seq {
     padding: 10px 20px;
 }
 
-
 .wait{
 	opacity: 0.5
 }
 
-.active{
-    opacity: 1
+.active {
+    opacity: 1;
+}
+
+/*
+**                                     Section Acrions
+--------------------------------------------------------------------------------------
+** - Boutons
+** - Formulaire
+** - Bloc des actions
+**************************************************************************************/
+
+textarea{
+    background: none;
+    border: none;
+    resize: none;
+    width: 80px;
+    padding: 0;
+    text-align:right;
+    font-family: 'Roboto', sans-serif;
+}
+
+div.actions {
+    margin-top: 60px; 
+    margin-bottom: 60px; 
+    width: 100%;
+    text-align: center;
+}
+
+a.bouton,
+button.bouton {
+    background: none repeat scroll 0 0 #80B61B;
+    border: medium none;
+    border-radius: 3px;
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4);
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 100;
+    padding: 18px 40px;
+    text-decoration: none;
+}
+
+button.consigne {
+    background: #FFFFFF;
+    border: medium none;
+    border-radius: 3px;
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4);
+    color: #0099CC;
+    font-size: 20px;
+    font-weight: 100;
+    padding: 18px 40px;;
+    text-decoration: none;
+}
+
+#reload{
+    
+}
+
+.hide{
+    display: none;
+}
+
+.show{
+    display: inline;
 }

@@ -34,12 +34,18 @@
 			
 		</header>
 
+		<div class="actions">
+
+			<button class="bouton show" href="" id="start"><span class="icon-stopwatch"></span> Start</button>
+			<button class="consigne show" href="" id="consigne"><span class="icon-book"></span> Instructions</button>
+
+		 </div>
 		<div class="container">
 
 			<!-- Bloc du joeur 1 -->
-			<section id="joueur-1" class="wait">
-				<div class="timer" id="timer-player-1">
-					<span class="chiffres"> 0 </span> <span class="seq"> </span>  <span class="chiffres"> 00 </span>
+			<section id="joueur-1-param" class="active">
+				<div class="timer" id="timer-player-1-param">
+					<textarea autofocus maxlength="2" class="chiffres" id="minutes_joueur-1">15</textarea><span class="texte">min</span>
 				</div>
 				<div class="nom-player">
 					<h4> Joueur 1 </h4>
@@ -47,31 +53,112 @@
 			</section>
 
 			<!-- Bloc du joeur 2 -->
-			<section id="joueur-2" class="wait">
-				<div class="timer" id="timer-player-2">
-						<span class="chiffres"> 0 </span> <span class="seq"> </span>  <span class="chiffres"> 00 </span>
+			<section id="joueur-2-param" class="active">
+				<div class="timer" id="timer-player-2-param">
+					<textarea maxlength="2" class="chiffres" id="minutes_joueur-2">15</textarea><span class="texte">min</span>
 				</div>
 				<div class="nom-player">
 					<h4> Joueur 2</h4>
 				</div>
 			</section>
-		</div>
 
+
+
+
+			<!-- Bloc du joueur 1 -->
+			<section id="joueur-1" class="wait hide ">
+				<div class="timer" id="timer-player-1">
+
+				</div>
+				<div class="nom-player">
+					<h4> Joueur 1 </h4>
+				</div>
+			</section>
+
+			<!-- Bloc du joueur 2 -->
+			<section id="joueur-2" class="wait hide ">
+				<div class="timer" id="timer-player-2">
+
+				</div>
+				<div class="nom-player">
+					<h4> Joueur 2</h4>
+				</div>
+			</section>
+
+		</div>
+		 <div class="actions">
+
+			<a class="bouton hide" href="" id="reload"><span class="icon-reload"></span> Recommencer</a>
+		 </div>
 				
 		<footer>
+			
 
 			<script type="text/javascript">
-				var secondes_player1 = 0;
-				var minutes_player1 = 5;
+				var secondes_player1 = 05;
+				var minutes_player1 = document.getElementById("minutes_joueur-1").value;
 
-				var secondes_player2 = 0;
-				var minutes_player2 = 5;
+				var secondes_player2 = 00;
+				var minutes_player2 = document.getElementById("minutes_joueur-2").value;
 
 				var timerIdun;
 				var timerIddeux;
 
+				var player_1_param = document.getElementById("joueur-1-param");
+				var player_2_param = document.getElementById("joueur-2-param");
+
+
 				var player_1 = document.getElementById("joueur-1");
 				var player_2 = document.getElementById("joueur-2");
+				var start = document.getElementById("start");
+				var consigne = document.getElementById("consigne");
+
+				start.onclick = function(){
+
+					if (minutes_player1 >= 10) {
+						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player1 +'0</span>';
+						
+					}
+
+					else {
+						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">0' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player1 +'0</span>';
+
+					};
+
+					if (minutes_player2 >= 10) {
+						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player2 +'0</span>';
+					}
+					else {
+						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">0' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player2 +'0</span>';
+					};
+
+					start.className = start.className.replace("show","");
+  					consigne.className = consigne.className.replace("show","");
+
+  					start.className = start.className + " hide";
+  					consigne.className = consigne.className + " hide";
+
+
+  					player_1_param.className=player_1_param.className.replace("active","");
+  					player_2_param.className=player_2_param.className.replace("active","");
+
+  					player_1_param.className = player_1_param.className + " hide";
+  					player_2_param.className = player_2_param.className + " hide";
+
+  					// Enlever la class Active
+  					player_1.className=player_1.className.replace("hide","");
+  					player_2.className=player_2.className.replace("hide","");
+
+  					timerUn();
+  					// Enlever la class Active
+  					player_2.className=player_2.className.replace("active","");
+
+  					// Ajouter la classe Active
+  					player_1.className = player_1.className + "active";
+
+
+
+  				};
   				
   				player_1.onclick = function(){
   					timerUn();
@@ -109,8 +196,6 @@
 				  clearInterval(timerIdun);
 				}
 
-
-
 				function updateA() {
 
 				  if (secondes_player1 == 0) {
@@ -118,8 +203,14 @@
 						secondes_player1 = 60;
 					};
 
-					if (minutes_player1 < 10) {
+					if (minutes_player1 >= 10) {
 						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player1-- +'</span>';
+						
+					}
+
+					else {
+						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres"> 0' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player1-- +'</span>';
+
 					};
 
 					if (secondes_player1 < 10) {
@@ -128,17 +219,28 @@
 					else{
 						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player1 +'</span>';
 					};
+
+					if (secondes_player1 == 0 && minutes_player1 == 0) {
+							clearInterval(timerIdun);
+							document.getElementById("timer-player-1").innerHTML = '<span class="resultat loose"> Perdu !</span>';
+							document.getElementById("timer-player-2").innerHTML = '<span class="resultat win"> Bravo !</span>';
+							player_2.className = player_2.className + "active";
+							document.getElementById("reload").className = document.getElementById("reload").className + " show";
+						}
 				}
 
 				function updateB() {
 
-				  if (secondes_player2 == 0) {
+				  	if (secondes_player2 == 0) {
 						minutes_player2 --;
 						secondes_player2 = 60;
 					};
 
-					if (minutes_player2 < 10) {
+					if (minutes_player2 >= 10) {
 						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player2-- +'</span>';
+					}
+					else {
+						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres"> 0' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player2-- +'</span>';
 					};
 
 					if (secondes_player2 < 10) {
@@ -147,6 +249,15 @@
 					else{
 						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player2 +'</span>';
 					};
+
+
+				if (secondes_player2 == 0 && minutes_player2 == 0) {
+						clearInterval(timerIddeux);
+						document.getElementById("timer-player-2").innerHTML = '<span class="resultat loose"> Perdu !</span>';
+						document.getElementById("timer-player-1").innerHTML = '<span class="resultat win"> Bravo !</span>';
+						player_1.className = player_1.className + "active";
+						document.getElementById("reload").className = document.getElementById("reload").className + " show";
+					}
 				}
 
 
@@ -233,7 +344,6 @@
 
 
   			// 	var timer = setInterval("chessClock(1, 400)",1000);
-
 
 
 			</script>
