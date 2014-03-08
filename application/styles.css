@@ -289,3 +289,14 @@ button:active{
 .show{
     display: inline;
 }
+
+.show-video{
+    display: block;
+}
+#video-consignes {
+    border: 20px solid #ffffff;
+    width: 600px;
+    height: 376px;
+    margin: 0 auto 50px;
+    border-radius: 3px;
+}

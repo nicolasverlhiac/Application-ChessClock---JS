@@ -46,6 +46,10 @@
 		</div>
 		<!-- /actions -->
 
+		<div id="video-consignes" class="hide">
+			<iframe src="//player.vimeo.com/video/88500435?byline=0&amp;color=00cccc" width="600" height="376" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+		</div>
+
 		<div class="container">
 
 			<!-- Paramétrage du timer du joueur 1 -->
@@ -115,31 +119,18 @@
 			// Initialisation des variables 
 			// ============================
 
-			function GetChar (event){
-            	var chCode = ('charCode' in event) ? event.charCode : event.keyCode;
-            	alert ("The Unicode character code is: " + chCode);
-        	}
-
-        	document.onkeypress = GetChar;
-
-
-        	function ejs_code_clavier(keyStroke)
-        		{
-        		ejs_code_eventChooser = (!document.all) ? keyStroke.which : event.keyCode;
-        		ejs_code_which = String.fromCharCode(ejs_code_eventChooser).toLowerCase();
-        		alert('Vous avez appuyé sur la touche '+ejs_code_which);
-        		}
-
-
-			// 
+				// Compteur du JOUEUR 1 (Minutes et Secondes)
 				var secondes_player1 = 0;
 				var minutes_player1 = document.getElementById("minutes_joueur-1").value;
 
+				// Compteur du JOUEUR 2 (Minutes et Secondes)
 				var secondes_player2 = 0;
 				var minutes_player2 = document.getElementById("minutes_joueur-2").value;
 
+				// Fonctions de support
 				var timerIdun;
 				var timerIddeux;
+
 
 				var player_1_param = document.getElementById("joueur-1-param");
 				var player_2_param = document.getElementById("joueur-2-param");
@@ -149,22 +140,36 @@
 				var player_2 = document.getElementById("joueur-2");
 				var start = document.getElementById("start");
 				var consigne = document.getElementById("consigne");
+				var video = document.getElementById("video-consignes");
+
+				// Action des boutons START et INSTRUCTION
+				// ====================
+
+				consigne.onclick = function(){
+					video.className = video.className.replace("hide","");
+					video.className = video.className + " show-video";
+				}
 
 				start.onclick = function(){
+
+				// Récupération des minutes dans les textarea pour chacun des compteurs
+				// --------------------------------------------------------------------
 
 					var minutes_player1 = document.getElementById("minutes_joueur-1").value;
 					var minutes_player2 = document.getElementById("minutes_joueur-2").value;
 
-					if (minutes_player1 >= 10) {
-						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">0' + secondes_player1 +'</span>';
-						
-					}
+				// Ajout d'un 0 si les minutes sont inférieur à 10
+				// -----------------------------------------------
 
+					// Compteur du JOUEUR 1
+					if (minutes_player1 >= 10) {
+						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">0' + secondes_player1 +'</span>';	
+					}
 					else {
 						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">0' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">0' + secondes_player1 +'</span>';
-
 					};
 
+					// Compteur du JOUEUR 2
 					if (minutes_player2 >= 10) {
 						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">0' + secondes_player2 +'</span>';
 					}
@@ -173,19 +178,24 @@
 					};
 
 
-  				// Enlever le menu des actions (Start et consignes)
+  				// Enlever le menu des actions (Start et consignes - Video)
   				// ------------------------------------------------
 
+  					// Supprime la class show
 					start.className = start.className.replace("show","");
   					consigne.className = consigne.className.replace("show","");
+  					video.className = video.className.replace("show","");
 
+  					// Ajoute la class hide
   					start.className = start.className + " hide";
   					consigne.className = consigne.className + " hide";
+  					video.className = video.className + " hide";
+
 
   				// Enlever les bloc de paramétrage
   				// -------------------------------
 					
-					// Enlever la class active sur les bloc de paramétrage 
+					// Supprimer la class active sur les bloc de paramétrage 
   					player_1_param.className=player_1_param.className.replace("active","");
   					player_2_param.className=player_2_param.className.replace("active","");
 
@@ -193,7 +203,7 @@
   					player_1_param.className = player_1_param.className + " hide";
   					player_2_param.className = player_2_param.className + " hide";
 
-  					// Enlever la class hide pour les timers cachés
+  					// Supprimer la class hide pour les timers cachés
   					player_1.className=player_1.className.replace("hide","");
   					player_2.className=player_2.className.replace("hide","");
 
@@ -202,7 +212,7 @@
   				// ------------------------------
 
   					timerUn();
-  					// Enlever la class Active
+  					// Supprimer la class Active
   					player_2.className=player_2.className.replace("active","");
 
   					// Ajouter la classe Active
@@ -212,54 +222,88 @@
 
 
   				// 
-  				// Actions par clic sur les éléments de l'application
+  				// Actions avec TOUCHES du clavier
   				// ==================================================
 
-  				function GetChar (event){
-            		var chCode = ('charCode' in event) ? event.charCode : event.keyCode;
-            		if (chCode == 0) {
-            			
-            			timerUn();
-            			// Enlever la class Active
-            			player_2.className=player_2.className.replace("active","");
+  				function clavier (event){
 
-            			// Ajouter la classe Active
-            			player_1.className = player_1.className + "active";
+            		var codeClavier = ('charCode' in event) ? event.charCode : event.keyCode;
 
-            		}; 
-            		if (chCode == 32) {
+            		/* Code Clavier par navigateur
+            		------------------------------
+            		* FIREFOX *
+            		- Entré = 0
+            		- Espace = 32
+
+            		* CHROME *
+            		- Entré = 13
+            		- Espace = 32
+            		----------------------------*/ 
+
+            		// Détection de la touche ESPACE
+            		// -----------------------------
+            		// Passage du Joueur 1 -> Joueur 2
+            		if (codeClavier == 32) {
 
             			timerDeux();
-            			// Enlever la class Active
+            			// Supprime la class Active
             			player_1.className=player_2.className.replace("active","");
-
-            			// Ajouter la classe Active
+            			// Ajoute la classe Active
             			player_2.className = player_1.className + "active";
             			
             		};
+
+            		// Détection de la touche ENTRE
+            		// ----------------------------
+            		// Passage du Joueur 2 -> Joueur 1
+            		if (codeClavier == 0 || codeClavier == 13) {
+
+            			timerUn();
+            			// Supprime la class Active
+            			player_2.className=player_2.className.replace("active","");
+            			// Ajoute la classe Active
+            			player_1.className = player_1.className + "active";
+
+            		}; 
+
         		}
+        		// Activation de la detection des touche du clavier sur toute la page web
+        		document.onkeypress = clavier;
 
-        		document.onkeypress = GetChar;
+        		// 
+  				// Actions par CLIC sur les éléments de l'application
+  				// ==================================================
 
+  				// Détection du clic sur le compteur du JOUEUR 1
+  				// ---------------------------------------------
+  				// Passage du Joueur 2 -> Joueur 1
   				player_1.onclick = function(){
-  					timerUn();
-  					// Enlever la class Active
-  					player_2.className=player_2.className.replace("active","");
 
-  					// Ajouter la classe Active
+  					timerUn();
+  					// Supprime la class Active
+  					player_2.className=player_2.className.replace("active","");
+  					// Ajoute la classe Active
   					player_1.className = player_1.className + "active";
 
   				};
 
+  				// Détection du clic sur le compteur du JOUEUR 2
+  				// ---------------------------------------------
+  				// Passage du Joueur 1 -> Joueur 2
   				player_2.onclick = function(){
-  					timerDeux();
-  					// Enlever la class Active
-  					player_1.className=player_2.className.replace("active","");
 
-  					// Ajouter la classe Active
+  					timerDeux();
+  					// Supprime la class Active
+  					player_1.className=player_2.className.replace("active","");
+  					// Ajoute la classe Active
   					player_2.className = player_1.className + "active";
 
   				};
+
+  				// 
+  				// FONCTIONS de support
+  				// ====================
+
 
 
 				function timerUn() {  
@@ -338,6 +382,24 @@
 						document.getElementById("reload").className = document.getElementById("reload").className + " show";
 					}
 				}
+
+							// function GetChar (event){
+   //          	var chCode = ('charCode' in event) ? event.charCode : event.keyCode;
+   //          	alert ("The Unicode character code is: " + chCode);
+   //      	}
+
+   //      	document.onkeypress = GetChar;
+
+
+   //      	function ejs_code_clavier(keyStroke)
+   //      		{
+   //      		ejs_code_eventChooser = (!document.all) ? keyStroke.which : event.keyCode;
+   //      		ejs_code_which = String.fromCharCode(ejs_code_eventChooser).toLowerCase();
+   //      		alert('Vous avez appuyé sur la touche '+ejs_code_which);
+   //      		}
+
+
+			// 
 
 			</script>
 
