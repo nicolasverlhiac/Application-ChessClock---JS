@@ -222,7 +222,7 @@ span.seq {
 }
 
 /*
-**                                     Section Acrions
+**                                     Section Actions
 --------------------------------------------------------------------------------------
 ** - Boutons
 ** - Formulaire
@@ -270,9 +270,16 @@ button.consigne {
     padding: 18px 40px;;
     text-decoration: none;
 }
+button:hover{
+    opacity: 0.8;
+    box-shadow: 0 0 5px rgba(0,0,0, 0.3);
+}
 
-#reload{
-    
+button:active{
+    opacity: 1;
+    box-shadow: 0 0 5px rgba(0,0,0, 0.3) inset;
+    -webkit-appearance: none; 
+    outline: none;
 }
 
 .hide{
