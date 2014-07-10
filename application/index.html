@@ -20,7 +20,7 @@
 	<link rel="stylesheet" type="text/css" href="styles.css" />	
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300,400italic' rel='stylesheet' type='text/css'>
 
- 	<!-- Le HTML5 shim, pour IE6-8 support of HTML elements -->
+ 	<!-- Le HTML5 shim, pour IE6-8 -->
 	<!--[if lt IE 9]>
     	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     	<![endif]-->	
@@ -111,7 +111,6 @@
 		<!-- /actions -->
 				
 		<footer>
-			
 
 			<script type="text/javascript">
 
@@ -221,12 +220,13 @@
   				};
 
 
-  				// 
-  				// Actions avec TOUCHES du clavier
-  				// ==================================================
+			// 
+			// Actions avec TOUCHES du clavier
+			// ==================================================
 
   				function clavier (event){
 
+  					// Récupère la velur de la touche qui vient d'être présé sur le clavier
             		var codeClavier = ('charCode' in event) ? event.charCode : event.keyCode;
 
             		/* Code Clavier par navigateur
@@ -270,15 +270,16 @@
         		// Activation de la detection des touche du clavier sur toute la page web
         		document.onkeypress = clavier;
 
-        		// 
-  				// Actions par CLIC sur les éléments de l'application
-  				// ==================================================
+    		// 
+			// Actions par CLIC sur les éléments de l'application
+			// ==================================================
 
   				// Détection du clic sur le compteur du JOUEUR 1
   				// ---------------------------------------------
   				// Passage du Joueur 2 -> Joueur 1
   				player_1.onclick = function(){
 
+  					// Relance le compteur du Jouer 2 à partir de là où il s'était arrété
   					timerUn();
   					// Supprime la class Active
   					player_2.className=player_2.className.replace("active","");
@@ -292,6 +293,7 @@
   				// Passage du Joueur 1 -> Joueur 2
   				player_2.onclick = function(){
 
+  					// Relance le compteur du Jouer 2 à partir de là où il s'était arrété
   					timerDeux();
   					// Supprime la class Active
   					player_1.className=player_2.className.replace("active","");
@@ -300,106 +302,129 @@
 
   				};
 
-  				// 
-  				// FONCTIONS de support
-  				// ====================
+			// 
+			// FONCTIONS de support pour mettre en pause un compteur et relancer l'autre
+			// =========================================================================
 
-
-
+  				// Relance le compteur du JOUEUR 1 et met en PAUSE celui du JOUEUR 2
+  				// -----------------------------------------------------------------
 				function timerUn() {  
 
-				  timerIdun = setInterval(updateA, 1000);
-				  updateA();
-				  clearInterval(timerIddeux);
+					// Lance la fonction du compteur du JOUEUR 1 toute les 1 seconde
+					timerIdun = setInterval(updateA, 1000);
+					updateA();
+					// Stop le compteur du JOUEUR 1 (Pause)
+					clearInterval(timerIddeux);
 				}
 
+				// Relance le compteur du JOUEUR 1 et met en PAUSE celui du JOUEUR 2
+  				// -----------------------------------------------------------------
 				function timerDeux() {  
-
-				  timerIddeux = setInterval(updateB, 1000);
-				  updateB();
-
-				  clearInterval(timerIdun);
+					// Lance la fonction du compteur du JOUEUR 1 toute les 1 seconde
+					timerIddeux = setInterval(updateB, 1000);
+					updateB();
+					// Stop le compteur du JOUEUR 2 (Pause)
+				  	clearInterval(timerIdun);
 				}
+
+				// Mise à jour du compteur du JOUEUR 1 à chaque execution de la fonction
+  				// ---------------------------------------------------------------------
 
 				function updateA() {
 
-				  if (secondes_player1 == 0) {
+				// Découpage des secondes en minutes
+				// ---------------------------------
+
+				  	if (secondes_player1 == 0) {
 						minutes_player1 --;
 						secondes_player1 = 60;
 					};
 
+				// Gestion des 0 lorsque les MINUTES ou les SECONDES sont < à 10
+				// -------------------------------------------------------------
 
+					// MINUTES et SECONDES sont inférieures à 10
 					if (minutes_player1 < 10 && secondes_player1 < 10 ) {
 						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">0' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">0' + secondes_player1-- +'</span>';
 					}
+					// MINUTES sont inférieures à 10
 					else if (minutes_player1 < 10 && secondes_player1 >= 10 ) {
 						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">0' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player1-- +'</span>';	
 					}
+					// SECONDES sont inférieures à 10
 					else if (minutes_player1 >= 10 && secondes_player1 < 10 ) {
 						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">0' + secondes_player1-- +'</span>';	
 					}
+					// MINUTES et SECONDES sont SUPÉRIEUR à 10
 					else {
 						document.getElementById("timer-player-1").innerHTML = '<span class="chiffres">' + minutes_player1 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player1-- +'</span>';
 
 					};
 
+				// Affichage des resultats dès que le compteur est à 0
+				// ---------------------------------------------------
+
 					if (secondes_player1 == 0 && minutes_player1 == 0) {
-							clearInterval(timerIdun);
-							document.getElementById("timer-player-1").innerHTML = '<span class="resultat loose"> Perdu !</span>';
-							document.getElementById("timer-player-2").innerHTML = '<span class="resultat win"> Bravo !</span>';
-							player_2.className = player_2.className + "active";
-							document.getElementById("reload").className = document.getElementById("reload").className + " show";
-						}
+						// Stop le compteur du JOUEUR 2 (Pause)
+						clearInterval(timerIdun);
+						// Affiche les résultats (JOUEUR 1 : BRAVO et JOUEUR 2 : PERDU)
+						document.getElementById("timer-player-1").innerHTML = '<span class="resultat loose"> Perdu !</span>';
+						document.getElementById("timer-player-2").innerHTML = '<span class="resultat win"> Bravo !</span>';
+						// Remet l'opacité à 1 pour le compteur du JOUEUR 1
+						player_2.className = player_2.className + "active";
+						// Affiche le bouton pour relancer l'application
+						document.getElementById("reload").className = document.getElementById("reload").className + " show";
+					}
 				}
 
+				// Mise à jour du compteur du JOUEUR 2 à chaque execution de la fonction
+  				// ---------------------------------------------------------------------
+
 				function updateB() {
+
+				// Découpage des secondes en minutes
+				// ---------------------------------
 
 				  	if (secondes_player2 == 0) {
 						minutes_player2 --;
 						secondes_player2 = 60;
 					};
 
+				// Gestion des 0 lorsque les MINUTES ou les SECONDES sont < à 10
+				// -------------------------------------------------------------
+
+					// MINUTES et SECONDES sont inférieures à 10
 					if (minutes_player2 < 10 && secondes_player2 < 10 ) {
 						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">0' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">0' + secondes_player2-- +'</span>';
 					}
+					// MINUTES sont inférieures à 10
 					else if (minutes_player2 < 10 && secondes_player2 >= 10 ) {
 						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">0' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player2-- +'</span>';	
 					}
+					// SECONDES sont inférieures à 10
 					else if (minutes_player2 >= 10 && secondes_player2 < 10 ) {
 						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">0' + secondes_player2-- +'</span>';	
 					}
+					// MINUTES et SECONDES sont SUPÉRIEUR à 10
 					else {
 						document.getElementById("timer-player-2").innerHTML = '<span class="chiffres">' + minutes_player2 + '</span> <span class="seq"> </span> <span class="chiffres">' + secondes_player2-- +'</span>';
-
 					};
 
+				// Affichage des resultats dès que le compteur est à 0
+				// ---------------------------------------------------
 
-				if (secondes_player2 == 0 && minutes_player2 == 0) {
+					if (secondes_player2 == 0 && minutes_player2 == 0) {
+						// Stop le compteur du JOUEUR 2 (Pause)
 						clearInterval(timerIddeux);
+						// Affiche les résultats (JOUEUR 1 : BRAVO et JOUEUR 2 : PERDU)
 						document.getElementById("timer-player-2").innerHTML = '<span class="resultat loose"> Perdu !</span>';
 						document.getElementById("timer-player-1").innerHTML = '<span class="resultat win"> Bravo !</span>';
+						// Remet l'opacité à 1 pour le compteur du JOUEUR 1
 						player_1.className = player_1.className + "active";
+						// Affiche le bouton pour relancer l'application
 						document.getElementById("reload").className = document.getElementById("reload").className + " show";
 					}
 				}
-
-							// function GetChar (event){
-   //          	var chCode = ('charCode' in event) ? event.charCode : event.keyCode;
-   //          	alert ("The Unicode character code is: " + chCode);
-   //      	}
-
-   //      	document.onkeypress = GetChar;
-
-
-   //      	function ejs_code_clavier(keyStroke)
-   //      		{
-   //      		ejs_code_eventChooser = (!document.all) ? keyStroke.which : event.keyCode;
-   //      		ejs_code_which = String.fromCharCode(ejs_code_eventChooser).toLowerCase();
-   //      		alert('Vous avez appuyé sur la touche '+ejs_code_which);
-   //      		}
-
-
-			// 
 
 			</script>
 
